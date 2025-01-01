@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浏览器原理演示</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>浏览器原理与API演示</h1>
+        
+        <section id="dom-section">
+            <h2>DOM操作演示</h2>
+            <div id="dom-demo">
+                <button id="add-element">添加元素</button>
+                <div id="element-container"></div>
+            </div>
+        </section>
+
+        <section id="storage-section">
+            <h2>存储机制演示</h2>
+            <div id="storage-demo">
+                <input type="text" id="storage-input" placeholder="输入要存储的内容">
+                <button id="save-local">保存到LocalStorage</button>
+                <button id="save-session">保存到SessionStorage</button>
+                <div id="storage-display"></div>
+            </div>
+        </section>
+
+        <section id="network-section">
+            <h2>网络请求演示</h2>
+            <div id="network-demo">
+                <button id="fetch-data">发起请求</button>
+                <div id="response-container"></div>
+            </div>
+        </section>
+
+        <section id="render-section">
+            <h2>渲染过程演示</h2>
+            <div id="render-demo">
+                <button id="trigger-reflow">触发回流</button>
+                <button id="trigger-repaint">触发重绘</button>
+                <div id="render-element">渲染测试元素</div>
+            </div>
+        </section>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>
