@@ -32,16 +32,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // localStorage演示
     saveLocalBtn.addEventListener('click', () => {
-        const data = storageInput.value;
-        localStorage.setItem('demoData', data);
-        updateStorageDisplay();
+        try {
+            const data = storageInput.value;
+            localStorage.setItem('demoData', data);
+            updateStorageDisplay();
+        } catch (error) {
+            console.error('localStorage 错误:', error);
+            alert('存储失败: ' + error.message);
+        }
     });
 
     // sessionStorage演示
     saveSessionBtn.addEventListener('click', () => {
-        const data = storageInput.value;
-        sessionStorage.setItem('demoData', data);
-        updateStorageDisplay();
+        try {
+            const data = storageInput.value;
+            sessionStorage.setItem('demoData', data);
+            updateStorageDisplay();
+        } catch (error) {
+            console.error('sessionStorage 错误:', error);
+            alert('存储失败: ' + error.message);
+        }
     });
 
     function updateStorageDisplay() {
@@ -60,14 +70,18 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchDataBtn.addEventListener('click', async () => {
         try {
             responseContainer.textContent = '加载中...';
-            // 使用JSONPlaceholder作为示例API
+            // 使用JSONPlaceholder API（支持CORS的测试API）
             const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const data = await response.json();
             responseContainer.innerHTML = `
                 <h3>${data.title}</h3>
                 <p>${data.body}</p>
             `;
         } catch (error) {
+            console.error('Fetch 错误:', error);
             responseContainer.textContent = '请求失败: ' + error.message;
         }
     });
@@ -93,21 +107,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 性能监控演示
-    const performanceObserver = new PerformanceObserver((list) => {
-        list.getEntries().forEach((entry) => {
-            console.log('Performance Entry:', {
-                name: entry.name,
-                startTime: entry.startTime,
-                duration: entry.duration,
-                entryType: entry.entryType
+    if ('PerformanceObserver' in window) {
+        const performanceObserver = new PerformanceObserver((list) => {
+            list.getEntries().forEach((entry) => {
+                console.log('Performance Entry:', {
+                    name: entry.name,
+                    startTime: entry.startTime,
+                    duration: entry.duration,
+                    entryType: entry.entryType
+                });
             });
         });
-    });
 
-    // 监控各种性能指标
-    performanceObserver.observe({ 
-        entryTypes: ['resource', 'paint', 'layout-shift', 'largest-contentful-paint'] 
-    });
+        // 监控各种性能指标
+        try {
+            performanceObserver.observe({ 
+                entryTypes: ['resource', 'paint', 'layout-shift', 'largest-contentful-paint'] 
+            });
+        } catch (error) {
+            console.warn('Performance API 不可用:', error);
+        }
+    }
 });
 
 // 浏览器事件循环演示
@@ -125,4 +145,5 @@ function demonstrateEventLoop() {
     console.log('2. 同步代码继续执行');
 }
 
+// 启动事件循环演示
 demonstrateEventLoop();
